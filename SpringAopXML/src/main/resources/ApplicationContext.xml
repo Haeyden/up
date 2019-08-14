@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <bean id="accountService" class="com.haeyden.service.impl.AccountServiceImpl"></bean>
+
+    <!--    配置AOP   -->
+    <!--    配置通知类   -->
+    <!--    1.通知类交给spring管理   -->
+    <bean id="logger" class="com.haeyden.utils.Logger"></bean>
+    <!--    2.配置aop    -->
+    <aop:config>
+        <!--3.配置切面   ref引用的是通知类 -->
+        <aop:aspect id="logAdvice" ref="logger">
+            <!--配置前置通知-->
+            <!--通常情况下，我们都是对业务层的方法进行增强，所以切入点表达式都是切到业务层实现类-->
+            <aop:before method="printLog" pointcut="execution( * com.haeyden.service.impl.*.*(..))"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
